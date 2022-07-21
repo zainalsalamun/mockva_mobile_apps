@@ -55,9 +55,7 @@ class HomePage extends StatelessWidget {
           ),
           Obx(
             () => TextFormField(
-              initialValue: _formatter.format(
-                loginC.accBalance.value,
-              ),
+              initialValue: _formatter.format(loginC.accBalance.value),
               enabled: false,
               decoration: const InputDecoration(
                 label: Text(
@@ -70,7 +68,7 @@ class HomePage extends StatelessWidget {
                 border: OutlineInputBorder(),
               ),
             ),
-          )
+          ),
         ],
       ),
     );

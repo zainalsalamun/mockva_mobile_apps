@@ -16,37 +16,43 @@ class LoginController extends GetxController {
 
   @override
   void dispose() {
-    txtPassC.dispose();
+    // Clean up the controller when the widget is disposed.
     txtUsrC.dispose();
+    txtPassC.dispose();
     super.dispose();
   }
 
   Future<void> login(String username, String password) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    UserLogin().loginUser(username, password).then((value) async {
-      if (value.statusCode == 200) {
-        prefs.setString('sessionId', value.body['id']);
-        prefs.setString('sessionId', value.body['accountId']);
+    UserLogin().loginUser(username, password).then(
+      (value) async {
+        if (value.statusCode == 200) {
+          prefs.setString('sessionId', value.body['id']);
+          prefs.setString('accountId', value.body['accountId']);
 
-        await AccountDetail()
-            .detailUser(value.body['id'], value.body['accountId'])
-            .then((value) {
-          accNumber = value.body['id'];
-          accName = value.body['name'];
-          accBalance.value = value.body['balance'].toString();
+          await AccountDetail()
+              .detailUser(value.body['id'], value.body['accountId'])
+              .then((value) {
+            accNumber = value.body['id'];
+            accName = value.body['name'];
+            accBalance.value = value.body['balance'].toString();
+          });
 
-          txtPassC.clear();
           txtUsrC.clear();
+          txtPassC.clear();
           Get.off(() => Menu());
-        });
-      } else {
-        Get.defaultDialog(
+        } else {
+          Get.defaultDialog(
             title: 'Error',
             content: Text(value.body),
             confirm: ElevatedButton(
-                onPressed: () => Get.back(), child: const Text('OK')));
-      }
-    });
+              onPressed: () => Get.back(),
+              child: const Text('OK'),
+            ),
+          );
+        }
+      },
+    );
   }
 }

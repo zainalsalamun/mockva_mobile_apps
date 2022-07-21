@@ -1,4 +1,3 @@
-import 'dart:ffi';
 import 'package:get/get.dart';
 import 'package:mockva_mobile_apps/views/login_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -12,7 +11,7 @@ class LogoutController extends GetxController {
 
     UserLogout().logoutUser(sessionId!).then((value) async {
       if (value.statusCode == 204) {
-        Get.off(() => LoginPage);
+        Get.off(() => LoginPage());
       }
     });
   }
